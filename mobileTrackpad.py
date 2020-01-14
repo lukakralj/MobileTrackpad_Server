@@ -17,4 +17,4 @@ def disconnect(sid):
     print('disconnect ', sid)
 
 if __name__ == '__main__':
-    eventlet.wsgi.server(eventlet.listen(("10.40.212.250", 3333)), app)
+    eventlet.wsgi.server(eventlet.listen(("", 3333)), app)
