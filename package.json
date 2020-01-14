@@ -1,0 +1,19 @@
+{
+  "name": "mobile-trackpad",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mobileTrackpad.js",
+  "scripts": {
+    "start": "sudo node mobileTrackpad.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukakralj/MobileTrackpad_Server.git"
+  },
+  "author": "Luka Kralj",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  }
+}
