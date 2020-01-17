@@ -1,0 +1,14 @@
+# All OS-s
+pip install pyautogui
+
+# Linux specific
+sudo apt-get install scrot
+sudo apt-get install python-tk
+sudo apt-get install python-dev
+
+# MacOS specific
+# If you are running El Capitan and have problems installing pyobjc try:
+# MACOSX_DEPLOYMENT_TARGET=10.11 pip install pyobjc
+
+# Windows specific 
+# none

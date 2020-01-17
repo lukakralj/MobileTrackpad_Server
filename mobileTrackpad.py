@@ -3,6 +3,8 @@ import socketio
 import socket 
 import os
 from subprocess import Popen, PIPE
+import pyautogui 
+
 
 port = 3333 # Set port to use.
 
@@ -16,21 +18,27 @@ sio = socketio.Server()
 app = socketio.WSGIApp(sio)
 
 def moveMouse(dx, dy):
-    os.system("xdotool mousemove_relative -- " + str(dx) + " " + str(dy))
+    pyautogui.moveRel(dx, dy, 0)
+    #os.system("xdotool mousemove_relative -- " + str(dx) + " " + str(dy))
 
 def mouseClick():
-    os.system("xdotool click 1")
+    pyautogui.click(button='left')
+    #os.system("xdotool click 1")
 
 def leftDown():
+
     os.system("xdotool mousedown 1")
 
 def rightDown():
+
     os.system("xdotool mousedown 3")
 
 def wheelUp():
+
     os.system("xdotool click 4")
 
 def wheelDown():
+
     os.system("xdotool click 5")
 
 # zoom could be simulated with ctrl + click 4/5
