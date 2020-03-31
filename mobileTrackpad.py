@@ -1,10 +1,10 @@
+#!/usr/bin/env python2
+
 import eventlet
 import socketio
 import socket 
 import os
 from subprocess import Popen, PIPE
-import pyautogui 
-
 
 port = 3333 # Set port to use.
 
@@ -17,47 +17,77 @@ port = 3333 # Set port to use.
 sio = socketio.Server()
 app = socketio.WSGIApp(sio)
 
-def moveMouse(dx, dy):
-    pyautogui.moveRel(dx, dy, 0)
+
+############## MOUSE CONTROL FUNCTIONS ##############
+
+def performMouseDelta(dx, dy):
+    # PyAutoGui is lagging too much. xte seems to be working slightly faster than xdotool
     #os.system("xdotool mousemove_relative -- " + str(dx) + " " + str(dy))
+    os.system("xte \"mousermove " + str(dx) + " " + str(dy) + "\"")
 
-def mouseClick():
-    pyautogui.click(button='left')
-    #os.system("xdotool click 1")
+def performLeftClick():
+    os.system("xte \"mouseclick 1\"")
 
-def leftDown():
+def performRightClick():
+    os.system("xte \"mouseclick 3\"")
 
-    os.system("xdotool mousedown 1")
+def performLeftDown():
+    os.system("xte \"mousedown 1\"")
 
-def rightDown():
+def performLeftUp():
+    os.system("xte \"mouseup 1\"")
 
-    os.system("xdotool mousedown 3")
+def performScrollUp():
+    os.system("xte \"mouseClick 4\"")
 
-def wheelUp():
-
-    os.system("xdotool click 4")
-
-def wheelDown():
-
-    os.system("xdotool click 5")
+def performScrollDown():
+    os.system("xte \"mouseClick 5\"")
 
 # zoom could be simulated with ctrl + click 4/5
+
+############## ENDPOINTS SETUP ##############
+
 
 @sio.event
 def connect(sid, environ):
     print('======connected')
 
-@sio.on("mouse_delta")
-def mouse_delta(sid, data):
-    moveMouse(data["dx"], data["dy"])
+@sio.on("mouseDelta")
+def mouseDelta(sid, data):
+    performMouseDelta(data["dx"], data["dy"])
 
-@sio.on("mouse_click")
-def mouse_delta(sid, data):
-    mouseClick()
+@sio.on("leftClick")
+def leftClick(sid, data):
+    performLeftClick()
+
+@sio.on("rightClick")
+def rightClick(sid, data):
+    performRightClick()
+
+@sio.on("leftDown")
+def leftDown(sid, data):
+    performLeftDown()
+
+@sio.on("leftUp")
+def leftUp(sid, data):
+    performLeftUp()
+
+@sio.on("scrollUp")
+def scrollUp(sid, data):
+    performScrollUp()
+    
+@sio.on("scrollDown")
+def scrollDown(sid, data):
+    performScrollDown()
+
+# TODO: add horizontal scroll (buttons 6 and 7?)
 
 @sio.event
 def disconnect(sid):
     print('======disconnected')
+
+
+############## SERVER SETUP  ##############
 
 #--------------------------
 # Extract IP
@@ -84,6 +114,7 @@ if not err:
     print("Port open.\n")
 else: 
     print(err)
+
 
 if __name__ == '__main__':
     eventlet.wsgi.server(eventlet.listen(("", port)), app)
