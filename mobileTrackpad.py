@@ -37,11 +37,13 @@ def performLeftDown():
 def performLeftUp():
     os.system("xte \"mouseup 1\"")
 
-def performScrollUp():
-    os.system("xte \"mouseClick 4\"")
+def performScrollUp(amount):
+    for _ in range(amount):
+        os.system("xte \"mouseClick 4\"")
 
-def performScrollDown():
-    os.system("xte \"mouseClick 5\"")
+def performScrollDown(amount):
+    for _ in range(amount):
+        os.system("xte \"mouseClick 5\"")
 
 # zoom could be simulated with ctrl + click 4/5
 
@@ -74,11 +76,11 @@ def leftUp(sid, data):
 
 @sio.on("scrollUp")
 def scrollUp(sid, data):
-    performScrollUp()
+    performScrollUp(data["amount"])
     
 @sio.on("scrollDown")
 def scrollDown(sid, data):
-    performScrollDown()
+    performScrollDown(data["amount"])
 
 # TODO: add horizontal scroll (buttons 6 and 7?)
 
